@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرة الأزمنة الإنجليزية للأطفال</title>
+<style>
+  @import url('https://googleapis.com');
+  
+  :root {
+    --primary: #FF6B6B;
+    --secondary: #4ECDC4;
+    --accent: #FFE66D;
+    --purple: #A06CD5;
+    --bg: #F7FFF7;
+    --dark: #292F36;
+  }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    margin: 0;
+    padding: 15px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--dark);
+  }
+
+  .en { font-family: 'Fredoka', sans-serif; direction: ltr; display: inline-block; }
+
+  .container {
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 800px;
+    padding: 25px;
+    border: 6px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+  }
+
+  h1 {
+    text-align: center;
+    color: var(--primary);
+    font-size: 2rem;
+    margin-top: 0;
+    text-shadow: 2px 2px 0px var(--accent);
+  }
+
+  .btn {
+    background: var(--secondary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 800;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #369b94;
+    transition: transform 0.1s;
+    margin: 5px;
+  }
+
+  .btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #369b94; }
+  .btn-primary { background: var(--primary); box-shadow: 0 5px 0 #c94a4a; }
+  .btn-purple { background: var(--purple); box-shadow: 0 5px 0 #7a49a8; }
+
+  .setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    background: #f0f9ff;
+    padding: 15px;
+    border-radius: 20px;
+    border: 3px dashed var(--secondary);
+  }
+
+  select, input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border: 2px solid var(--secondary);
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    margin-top: 8px;
+    box-sizing: border-box;
+  }
+
+  .hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--accent);
+    padding: 12px 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    font-weight: 800;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .timer-box {
+    background: var(--primary);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+  }
+
+  .question-box {
+    background: #fff9db;
+    border: 4px solid var(--accent);
+    border-radius: 25px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .tense-badge {
+    background: var(--purple);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 0.95rem;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .question-text {
+    font-size: 1.6rem;
+    margin: 15px 0;
+    color: var(--dark);
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: white;
+    border: 3px solid var(--secondary);
+    color: var(--dark);
+    font-size: 1.3rem;
+    padding: 15px;
+    border-radius: 18px;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .option-btn:hover { background: #e0fbf9; transform: scale(1.02); }
+
+  .input-answer {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.4rem;
+    text-align: center;
+    max-width: 250px;
+    margin: 10px auto;
+    display: block;
+  }
+
+  .feedback-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .feedback-card {
+    background: white;
+    padding: 30px;
+    border-radius: 30px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    border: 6px solid var(--accent);
+    animation: pop 0.3s ease;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.5); }
+    100% { transform: scale(1); }
+  }
+
+  .emoji-big { font-size: 5rem; display: block; margin-bottom: 10px; }
+  
+  .hint-box {
+    background: #ffe3e3;
+    color: #c92a2a;
+    padding: 12px;
+    border-radius: 15px;
+    margin-top: 15px;
+    font-size: 1rem;
+  }
+
+  .badges-bar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .badge {
+    background: #eee;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    opacity: 0.4;
+  }
+  .badge.unlocked { background: var(--accent); opacity: 1; font-weight: bold; }
+
+  canvas#fireworks {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 99;
+  }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+  th, td { padding: 10px; border-bottom: 2px solid #eee; text-align: center; }
+  th { background: var(--secondary); color: white; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+  <!-- شاشة البداية -->
+  <div id="start-screen">
+    <h1>🚀 مغامرة أزمنة اللغة الإنجليزية 🎈</h1>
+    
+    <div class="setup-grid">
+      <div class="card">
+        <label><strong>1. اختر وضع اللعب:</strong></label>
+        <select id="game-mode" onchange="togglePlayer2()">
+          <option value="single">لاعب واحد 👤</option>
+          <option value="dual">لعب مزدوج (تحدي لاعبين) 👥</option>
+        </select>
+        <input type="text" id="p1-name" placeholder="اسم اللاعب الأول" value="البطل 1">
+        <input type="text" id="p2-name" placeholder="اسم اللاعب الثاني" value="البطل 2" class="hidden">
+      </div>
+
+      <div class="card">
+        <label><strong>2. الفئة العمرية (الصعوبة):</strong></label>
+        <select id="age-level">
+          <option value="8-10">من 8 إلى 10 سنوات (مبتدئ 🌟)</option>
+          <option value="11-13">من 11 إلى 13 سنة (متوسط 🔥)</option>
+          <option value="14-15">من 14 إلى 15 سنة (متقدم 🏆)</option>
+        </select>
+
+        <label style="display:block; margin-top:10px;"><strong>3. اختر الزمن للتدريب:</strong></label>
+        <select id="tense-select">
+          <option value="all">جميع الأزمنة (تحدي شامل - 40 سؤالاً)</option>
+          <option value="pres_simple">المضارع البسيط (10 أسئلة)</option>
+          <option value="pres_cont">المضارع المستمر (10 أسئلة)</option>
+          <option value="past_simple">الماضي البسيط (10 أسئلة)</option>
+          <option value="past_cont">الماضي المستمر (10 أسئلة)</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="text-align: center;">
+      <button class="btn btn-primary" onclick="startGame()">ابدأ اللعب الآن! 🎮</button>
+      <button class="btn btn-purple" onclick="showLeaderboard()">لوحة الشرف 🏆</button>
+    </div>
+  </div>
+
+  <!-- شاشة اللعب -->
+  <div id="game-screen" class="hidden">
+    <div class="hud">
+      <div id="turn-indicator">الدور: البطل 1</div>
+      <div>النقاط: <span id="score-display">0</span> ⭐</div>
+      <div>السؤال: <span id="q-counter">1/10</span></div>
+      <div class="timer-box">⏳ <span id="timer">20</span>ث</div>
+    </div>
+
+    <div class="question-box">
+      <div class="tense-badge" id="tense-label">Present Simple</div>
+      <div id="q-type-label" style="color:#666; font-size:0.9rem;">اختر الإجابة الصحيحة:</div>
+      <div class="question-text en" id="question-text">She ___ to school every day.</div>
+      
+      <div id="options-container" class="options-grid"></div>
+      
+      <div id="input-container" class="hidden">
+        <input type="text" id="verb-input" class="input-answer" placeholder="اكتب الفعل هنا..." autocomplete="off">
+        <button class="btn btn-primary" onclick="checkInputAnswer()">تأكيد الإجابة ✅</button>
+      </div>
+    </div>
+
+    <div class="badges-bar">
+      <div class="badge" id="badge-1">🥉 نجم البداية (30 نقطة)</div>
+      <div class="badge" id="badge-2">🥈 بطل القواعد (70 نقطة)</div>
+      <div class="badge" id="badge-3">🥇 عبقري الإنجليزية (100 نقطة)</div>
+    </div>
+  </div>
+
+  <!-- شاشة لوحة الشرف والنتائج -->
+  <div id="end-screen" class="hidden" style="text-align:center;">
+    <h2 id="end-title">انتهت الجولة! 🎉</h2>
+    <div id="final-scores" style="font-size:1.3rem; margin:15px 0;"></div>
+    
+    <h3>🏆 لوحة الشرف لأفضل الأبطال</h3>
+    <table>
+      <thead>
+        <tr><th>المركز</th><th>الاسم</th><th>النقاط</th><th>المستوى</th></tr>
+      </thead>
+      <tbody id="leaderboard-body"></tbody>
+    </table>
+
+    <br>
+    <button class="btn btn-primary" onclick="resetToHome()">العودة للقائمة الرئيسية 🏠</button>
+  </div>
+</div>
+
+<!-- نافذة النتيجة الفورية -->
+<div class="feedback-overlay" id="feedback-modal">
+  <div class="feedback-card">
+    <span class="emoji-big" id="fb-emoji">🎆</span>
+    <h2 id="fb-title">أحسنت! إجابة رائعة</h2>
+    <div class="hint-box hidden" id="fb-hint"></div>
+    <br>
+    <button class="btn btn-primary" onclick="nextQuestion()">السؤال التالي ⬅️</button>
+  </div>
+</div>
+
+<script>
+// بنك الأسئلة: 10 أسئلة فريدة لكل زمن (40 سؤالاً إجمالاً)
+const questionBank = {
+  pres_simple: [
+    { type: 'mcq', q: "She ___ to school every day.", opts: ["go", "goes", "going", "went"], ans: "goes", hint: "مع الضمائر (He, She, It) في المضارع البسيط نضيف (s) أو (es) للفعل." },
+    { type: 'input', q: "They ___ (not / play) football on Fridays.", ans: "don't play", alt: "do not play", hint: "للنفي مع (They) في المضارع البسيط نستخدم don't + مصدر الفعل." },
+    { type: 'mcq', q: "___ he like ice cream?", opts: ["Do", "Does", "Is", "Did"], ans: "Does", hint: "للسؤال مع (he) في المضارع البسيط نبدأ بـ Does." },
+    { type: 'input', q: "The sun ___ (rise) in the east.", ans: "rises", hint: "الحقائق العلمية تُصاغ في المضارع البسيط،
